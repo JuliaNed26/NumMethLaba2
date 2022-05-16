@@ -35,7 +35,7 @@ namespace ChisMetLaba2
 
                 for (int j = i + 1; j < equatSystem.Size; j++)
                 {
-                    double substractSum = 0;
+                    double substractSum = 0.0;
                     for (int p = 0; p < i; p++)
                     {
                         substractSum += matrixS[p, i] * matrixD[p, p] * matrixS[p, j];
@@ -51,7 +51,7 @@ namespace ChisMetLaba2
             for (int i = 0; i < equatSystem.Size; i++)
             {
                 y[i] = equatSystem.constants[i];
-                for (int k = 0; k < i - 1; k++)
+                for (int k = 0; k < i; k++)
                 {
                     y[i] -= stdMatrix[i, k] * y[k];
                 }
@@ -85,52 +85,6 @@ namespace ChisMetLaba2
                 determinant *= matrixD[i, i] * matrixS[i, i] * matrixS[i, i];
             }
             return determinant;
-        }
-
-        private double[,] GetIntermediateMatrixY()
-        {
-            double[,] matrixY = new double[equatSystem.Size, equatSystem.Size];
-
-            for (int i = 0; i < equatSystem.Size; i++)
-            {
-                for (int k = i; k < equatSystem.Size; k++)
-                {
-                    if (i == k)
-                    {
-                        matrixY[i, i] = 1.0 / stdMatrix[i, i];
-                    }
-                    else
-                    {
-                        double chis = 0;
-                        for (int p = i; p < k; p++)
-                        {
-                            chis -= stdMatrix[k, p] * matrixY[p, i];
-                        }
-                        matrixY[k, i] = chis / stdMatrix[i, i];
-                    }
-                }
-            }
-            return matrixY;
-        }
-
-        public double[,] GetInverseMatrix()
-        {
-            double[,] inverseMatrix = new double[equatSystem.Size, equatSystem.Size];
-            double[,] matrixY = GetIntermediateMatrixY();
-
-            for (int i = 0; i < equatSystem.Size; i++)
-            {
-                for(int k = equatSystem.Size - 1; k >= 0; k--)
-                {
-                    double chis = matrixY[k, i];
-                    for(int p = equatSystem.Size - 1; p > k; p--)
-                    {
-                        chis -= inverseMatrix[p, i] * matrixS[k, p];
-                    }
-                    inverseMatrix[k,i] = chis / matrixS[k, k];
-                }
-            }
-            return inverseMatrix;
         }
     }
 }

@@ -8,6 +8,22 @@ namespace ChisMetLaba2
 {
     internal static class MatrixOperations
     {
+        public static double GetNorm(double[,] matrix)
+        {
+            int matrixSize = (int)Math.Sqrt(matrix.Length);
+            double norm = 0;
+
+            for (int i = 0; i < matrixSize; i++)
+            {
+                double lineSum = 0;
+                for (int j = 0; j < matrixSize; j++)
+                {
+                    lineSum += Math.Abs(matrix[i, j]);
+                }
+                norm = lineSum > norm ? lineSum : norm;
+            }
+            return norm;
+        }
         public static double[,] GetTransp (double[,] matrix)
         {
             int matrixSize = (int)Math.Sqrt(matrix.Length);

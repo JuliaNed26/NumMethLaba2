@@ -48,7 +48,7 @@ namespace ChisMetLaba2
                     double curX = equatSystem.constants[i] / equatSystem.matrix[i, i];
                     for(int j = 0; j < i; j++)
                     {
-                        curX += (equatSystem.matrix[i, j] * Xiterations[Xiterations.Count() - 1][j])/ equatSystem.matrix[i,i];
+                        curX -= (equatSystem.matrix[i, j] * Xiterations[Xiterations.Count() - 1][j])/ equatSystem.matrix[i,i];
                     }
                     for(int j = i + 1; j < equatSystem.Size; j++)
                     {
@@ -57,10 +57,10 @@ namespace ChisMetLaba2
                     curIteration[i] = curX;
                 }
                 Xiterations.Add(curIteration);
-                double maxDifference = Xiterations.Last()[0] - Xiterations[Xiterations.Count - 2][0];
+                double maxDifference = Math.Abs(Xiterations.Last()[0] - Xiterations[Xiterations.Count - 2][0]);
                 for(int i = 1; i < equatSystem.Size; i++)
                 {
-                    double curDifference = Xiterations.Last()[i] - Xiterations[Xiterations.Count - 2][i];
+                    double curDifference = Math.Abs(Xiterations.Last()[i] - Xiterations[Xiterations.Count - 2][i]);
                     maxDifference = curDifference > maxDifference ? curDifference : maxDifference;
                 }
                 if(maxDifference <= accuracy)

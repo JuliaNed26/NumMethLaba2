@@ -25,13 +25,33 @@ Console.WriteLine("\n\nDeterminant: \n");
 Console.WriteLine(sqrootMeth.GetDeterminant());
 
 Console.WriteLine("\nInverse matrix: \n");
-MatrixOperations.PrintMatrix(sqrootMeth.GetInverseMatrix());
+
+double[,] inverseMatrix = new double[equatSystem.Size, equatSystem.Size];
+
+for (int i = 0; i < n; i++)
+{
+    double[] ei = new double[n];
+    ei[i] = 1;
+    SquareRootMethod squareRootMeth = new SquareRootMethod(new EquationsSystem(n, ei));
+    double[] curResol = squareRootMeth.GetResolution();
+    for (int k = 0; k < n; k++)
+    {
+        inverseMatrix[k,i] = curResol[k];
+    }
+}
+MatrixOperations.PrintMatrix(inverseMatrix);
+
+Console.WriteLine("\n\nMatrix A*A-1: \n");
+MatrixOperations.PrintMatrix(MatrixOperations.MultiplyMatrixs(inverseMatrix,equatSystem.matrix));
+
+Console.WriteLine("\n\nCondition number: \n");
+Console.WriteLine(MatrixOperations.GetNorm(inverseMatrix) * MatrixOperations.GetNorm(equatSystem.matrix));
 
 try
 {
     YakobiMethod yakMeth = new YakobiMethod(equatSystem);
 
-    double[] result1 = yakMeth.GetResolution(0.0001);
+    double[] result1 = yakMeth.GetResolution(0.0000001);
 
     Console.WriteLine("\n\nYakobi method resolution: \n");
     for (int i = 0; i < n; i++)

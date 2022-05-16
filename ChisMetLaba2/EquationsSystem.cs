@@ -16,7 +16,14 @@ namespace ChisMetLaba2
             Size = size;
             matrix = new double[size, size];
             constants = new double[size];
-            FillEquations();
+            FillEquations(false);
+        }
+        public EquationsSystem(int size, double[] _constants)
+        {
+            Size = size;
+            matrix = new double[size, size];
+            constants = _constants;
+            FillEquations(true);
         }
 
         public double[] GetNevyazok(double[] custResult)
@@ -34,7 +41,7 @@ namespace ChisMetLaba2
             return nevyazok;
         }
 
-        private void FillEquations()
+        private void FillEquations(bool isConstSet)
         {
             for (int i = 1; i <= Size; i++)
             {
@@ -49,7 +56,10 @@ namespace ChisMetLaba2
                         matrix[i - 1, j - 1] = (i + j) / (5.0 + Size);
                     }
                 }
-                constants[i - 1] = 3 * i * i - Size;
+                if (!isConstSet)
+                {
+                    constants[i - 1] = 3 * i * i - Size;
+                }
             }
         }
 
@@ -59,8 +69,7 @@ namespace ChisMetLaba2
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    char curX = (char)('a' + j);
-                    Console.Write(matrix[i, j].ToString() + (char)curX + (j == Size - 1 ? " = " : " + "));
+                    Console.Write(matrix[i, j].ToString() + $" * x{j + 1}" + (j == Size - 1 ? " = " : " + "));
                     if (j % 3 == 0 && j != 0)
                     {
                         Console.WriteLine();
